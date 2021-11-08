@@ -20,8 +20,19 @@ namespace HelloWorld
 
             Console.Write("Ile masz lat doświadczenia w C#?: ");
             string input = Console.ReadLine();
+            
             experience = int.Parse(input); // konwersja + zgłaszanie błędów
-                                           // experience = Convert.ToInt32(input); // konwersja + zgłaszanie błędów
+            // experience = Convert.ToInt32(input); // konwersja + zgłaszanie błędów
+
+            /* Różnica pomiędzy Parse a Convert
+             
+            string input = null;
+	
+	        int number = Convert.ToInt32(input);  // returns 0
+	
+        	int number = int.Parse(input); //  throws ArgumentNullException
+
+            */
 
             // Console.WriteLine("Witaj " + firstName + " " + lastName + "!"); // Konkatenacja
             //  Console.WriteLine("Miło, że masz " + experience + " lat doświadczenia.");
