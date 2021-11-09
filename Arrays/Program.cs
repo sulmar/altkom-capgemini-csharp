@@ -31,8 +31,39 @@ namespace Arrays
             persons[3] = "Piotr";
             persons[4] = "Szymon";
 
-            persons[7] = "Grzegorz";            
+            persons[6] = "";
+            persons[7] = "Grzegorz";
 
+            int count = persons.Length;
+
+            string selectedPerson = persons[5];
+
+            if (selectedPerson is null)
+            {
+                Console.WriteLine("Brak osoby");
+            }
+            else
+            {
+                Console.WriteLine(selectedPerson);
+            }
+
+
+            // iteracja z użyciem pętli for
+            for (int index = 0; index < persons.Length; index++)
+            {
+                string currentPerson = persons[index];
+
+                Console.WriteLine($"{index+1} - {currentPerson}");
+            }
+
+            // iteracja z użyciem foreach
+
+            int _index = 1;
+
+            foreach(string currentPerson in persons)
+            {
+                Console.WriteLine($"{_index++} - {currentPerson}");
+            }
 
             // string[] active = new string[] { "Grzegorz", "Marek", "Tobiasz" };
 
