@@ -22,7 +22,7 @@ namespace HelloWorld
             string input = Console.ReadLine();
             
             experience = int.Parse(input); // konwersja + zgłaszanie błędów
-            // experience = Convert.ToInt32(input); // konwersja + zgłaszanie błędów
+                                           // experience = Convert.ToInt32(input); // konwersja + zgłaszanie błędów
 
             /* Różnica pomiędzy Parse a Convert
              
@@ -37,12 +37,21 @@ namespace HelloWorld
             // Console.WriteLine("Witaj " + firstName + " " + lastName + "!"); // Konkatenacja
             //  Console.WriteLine("Miło, że masz " + experience + " lat doświadczenia.");
 
-            // string message = "Witaj " + firstName + "!";
+            // string message = "Witaj " + firstName + " " + lastName + "!";
             // string message = string.Format("Witaj {0} {2}!", firstName, lastName);
-            // string experienceMessage = string.Format("Miło że masz {0} lat doświadczenia!", experience);
-
             string message = $"Witaj {firstName} {lastName.ToUpper()}!"; // Interpolacja
+
+            // string experienceMessage = string.Format("Miło że masz {0} lat doświadczenia!", experience);
             string experienceMessage = $"Miło że masz {experience} lat doświadczenia. Data zalogowania: {loginDate}";
+
+            decimal unitPrice = 1.997m;
+            
+            string adsMessage1 = $"Cena produktu {unitPrice:c2}"; // 1,99 zł
+
+            Console.WriteLine(adsMessage1);
+
+            string adsMessage2 = $"Cena produktu {unitPrice:n2} PLN"; // 1,99 PLN
+            Console.WriteLine(adsMessage2);
 
             Console.WriteLine(message);
             Console.WriteLine(experienceMessage);
