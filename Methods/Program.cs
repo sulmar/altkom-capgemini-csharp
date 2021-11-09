@@ -31,7 +31,7 @@ namespace Methods
             // Don't repeat yourself! DRY 
             decimal salary1 = baseSalary1 + overtime1 * rate + 100;
             decimal salary2 = baseSalary2 + overtime2 * rate + 100;
-            decimal salary3 = baseSalary3 + overtime3 * rate + 100;
+            decimal salary3 = baseSalary3 + overtime3 * rate + 100;            
 
             Console.WriteLine("======");
             Console.WriteLine(salary1);
@@ -45,13 +45,33 @@ namespace Methods
             Console.WriteLine(salary3);
             Console.WriteLine("======");
 
+
+            // Programowanie strukturalne (dzielimy kod na metody)
+
             decimal _salary1 = CalculateSalary(5000, rate: 100, overtime: 110);
             decimal _salary2 = CalculateSalary(4000, overtime: 5, rate: rate);
             decimal _salary3 = CalculateSalary(4000, 20);
 
+            _salary1 = AddBonus(_salary1, 50);
+
             DisplaySalary(symbol, _salary1);
             DisplaySalary(symbol, _salary2);
             DisplaySalary(symbol, _salary3);
+
+            _salary3 = AddBonus(_salary3, 10);
+        }
+
+
+        static decimal AddBonus(decimal baseSalary, decimal bonus)
+        {
+            decimal salary = baseSalary + bonus;
+
+            if (salary < 1000)
+            {
+                salary += 10;
+            }
+
+            return salary;
         }
 
         // Metoda (funkcja) -> posiada parametry i zwraca wartość
