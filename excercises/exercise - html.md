@@ -5,8 +5,9 @@
 
 Utwórz klasę, która będzie generowała odpowiednią kontrolkę html, np.
 
+~~~ html
  <img src="img_orange_flowers.jpg" alt="Flowers" style="width:auto;">
-
+~~~
 
 ~~~ csharp
 namespace Html {
