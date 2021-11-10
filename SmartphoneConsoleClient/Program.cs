@@ -10,16 +10,32 @@ namespace SmartphoneConsoleClient
         {
             Console.WriteLine("Hello World!");
 
+            Batery batery = new Batery();
+
+            Band band = new Band();
+            band.ReplaceBatery(batery);
+
+            band.Charge();
+
+
             Device device = CreateDevice();
-            
+
+            //            device.batery.bateryLevel = 110;
+
+            //device.batery.SetBateryLevel(110);
+
+            //byte level = device.batery.GetBateryLevel();
+
+            // device.batery.BateryLevel = 110;
+
+            byte level = device.BateryLevel;
+
             if (!device.IsCharged())
             {
                 device.Charge();
             }
 
-
-
-           // GetDevices();
+            // GetDevices();
 
         }
 
@@ -38,11 +54,12 @@ namespace SmartphoneConsoleClient
         static Device CreateDevice()
         {
             Device device = new Device();
-            
+
             GetManufacture(device);
             GetModel(device);
             GetEstimatedValue(device);
             GetBatery(device);
+            GetCustomer(device);
 
             return device;
         }
@@ -51,22 +68,53 @@ namespace SmartphoneConsoleClient
         {
             Console.Write("Czy jest bateria? Y/N ");
 
-            switch(Console.ReadLine())
+            switch (Console.ReadLine())
             {
-                case "Y": device.batery = CreateBatery() ; break;
+                case "Y": device.ReplaceBatery(CreateBatery()); break;
                 case "N": break;
 
                 default: Console.WriteLine("Błędna wartość"); break;
             }
         }
 
+        private static void GetCustomer(Device device)
+        {
+            Console.WriteLine("---- customer info ----");
+            device.Owner = CreateCustomer();
+        }
+
         private static Batery CreateBatery()
         {
-            Console.Write("Podaj poziom naładowania baterii");
+            Console.Write("Podaj poziom naładowania baterii: ");
 
-            byte level = byte.Parse(Console.ReadLine());
+            if (byte.TryParse(Console.ReadLine(), out byte level))
+            {
+                return new Batery(level);
+            }
+            else
+            {
+                return new Batery();
+            }
 
-            return new Batery { bateryLevel = level };
+            // return new Batery { bateryLevel = level };
+
+        }
+
+        private static Customer CreateCustomer()
+        {
+            Console.Write("Podaj imię: ");
+            string firstName = Console.ReadLine();
+
+            Console.Write("Podaj nazwisko: ");
+            string lastName = Console.ReadLine();
+
+            Console.Write("Podaj telefon kontaktowy: ");
+            string phoneNumber = Console.ReadLine();
+
+            Customer customer = new Customer(lastName, phoneNumber);
+            customer.FirstName = firstName;
+
+            return customer;
         }
 
         private static void GetEstimatedValue(Device device)
@@ -86,27 +134,85 @@ namespace SmartphoneConsoleClient
         static void GetManufacture(Device device)
         {
             Console.Write("Podaj producenta: ");
-            device.manufacture = Console.ReadLine();
+            device.Manufacture = Console.ReadLine();
         }
 
         static void GetModel(Device device)
         {
             Console.Write("Podaj model: ");
-            device.model = Console.ReadLine();
+            device.Model = Console.ReadLine();
         }
-
-
     }
 
-    public class Device
+
+    public class Smartphone : Device    // dziedziczenie 
     {
-        public string manufacture;
-        public string model;
+        public byte SignalLevel // smartphone    .... band (opaska)
+        {
+            get
+            {
+                return 10;
+            }
+        }
 
-        public Customer owner;
-        public Batery batery; // null, posiada obiekt typu Batery
+        public byte Volume
+        {
+            get
+            {
+                return 100;
+            }
+        }
+    }
 
-        private const byte ChargedLimit = 70;
+    public class Band : Device
+    {
+        public byte Pulse
+        {
+            get
+            {
+                return 120;
+            }
+        }
+    }
+
+    public class Smartwatch : Device
+    {
+        
+    }
+
+
+    abstract public class Device
+    {
+        // Właściwości
+        public string Manufacture { get; set; }
+        public string Model { get; set; }
+
+
+        public Customer Owner { get; set; }
+        
+        private Batery batery; // null, posiada obiekt typu Batery
+
+      
+
+        // Hermetyzacja - ukrywanie szczegółów budowy/implementacji
+        public byte BateryLevel
+        {
+            get
+            {
+                return batery.BateryLevel;
+            }
+        }
+
+        public void ReplaceBatery(Batery batery)
+        {
+            this.batery = batery;
+        }
+
+        public void RemoveBatery()
+        {
+            this.batery = null;
+        }
+
 
         public bool HasBatery()
         {
@@ -119,7 +225,7 @@ namespace SmartphoneConsoleClient
         {
             if (HasBatery())
             {
-                return batery.bateryLevel > ChargedLimit;
+                return batery.IsCharged();
             }
             else
             {
@@ -137,25 +243,179 @@ namespace SmartphoneConsoleClient
 
     public class Batery
     {
-        public byte bateryLevel;
-
+        private const byte chargedLimit = 70;
         private const byte maxBateryLevel = 100;
+
+        // Pole (field)
+        private byte bateryLevel;
+
+
+        // Właściwość (property)
+        /*
+        public byte BateryLevel
+        {
+            // Getter
+            get
+            {
+                return this.bateryLevel;
+            }
+
+            // Setter
+            set
+            {
+                if (value <= maxBateryLevel)
+                {
+                    this.bateryLevel = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+        }
+
+        */
+
+        public byte BateryLevel
+        {
+            get
+            {
+                return this.bateryLevel;
+            }
+
+            private set
+            {
+                if (value <= maxBateryLevel)
+                {
+                    this.bateryLevel = value;
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+
+        }
+
+        /*
+         
+        // Getter
+        public byte GetBateryLevel()
+        {
+            return this.bateryLevel;
+        }
+
+        // Setter
+        public void SetBateryLevel(byte value)
+        {
+            if (value<=100)
+            {
+                this.bateryLevel = value;
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+            
+        }
+
+
+        */
+
+
+
+        // constructor - specjalna metoda uruchamiania przy tworzeniu obiektu za pomocą operatora new()
+        // konstruktor - metoda ma taką samą nazwę jak klasa i nic nie zwraca
+        public Batery(byte level = 100)   // przeciążanie konstruktorów
+        {
+            this.BateryLevel = level;
+        }
+
+        // Konstruktor domyślny 
+        //public Batery()
+        //{
+        //    this.bateryLevel = 100;
+        //}
+
+
+        public bool IsCharged()
+        {
+            return bateryLevel > chargedLimit;
+        }
 
         public void Charge()
         {
-            for (int i = bateryLevel; i <= maxBateryLevel; i++)
+            for (int i = BateryLevel; i <= maxBateryLevel; i++)
             {
-                Console.WriteLine($"Charging... {i}");
+                Console.WriteLine($"Charging... {BateryLevel++}");
 
                 Thread.Sleep(1000);
             }
         }
+
+       
     }
 
     public class Customer
     {
-        public string firstName;
-        public string lastName;
-        public string phoneNumber;
+        private string pesel;
+
+        private string _firstName;
+        
+        public string FirstName
+        {
+            get
+            {
+                return _firstName;
+            }
+            set
+            {
+                _firstName = value;
+            }
+        }
+
+
+        public string LastName { get; set; }
+
+        private string _phoneNumber;
+        public string PhoneNumber
+        {
+            get => _phoneNumber;
+
+            set
+            {
+                if (value.Length == 6)
+                {
+                    _phoneNumber = value;
+                }
+                else
+                {
+                    throw new FormatException();
+                }
+            }
+        }
+
+        public Customer(string lastName, string phoneNumber)
+        {
+            this.LastName = lastName;
+            this.PhoneNumber = phoneNumber;
+        }
+
+        // zła praktyka
+        //public Customer(string firstName, string lastName, string phoneNumber)
+        //{
+        //    this.firstName = firstName;
+
+        //    this.lastName = lastName;
+        //    this.phoneNumber = phoneNumber;
+        //}
+
+        // dobra praktyka
+        public Customer(string firstName, string lastName, string phoneNumber)
+            : this(lastName, phoneNumber)
+        {
+            this.FirstName = firstName;
+        }
+
     }
 }
