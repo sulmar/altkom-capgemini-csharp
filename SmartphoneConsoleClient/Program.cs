@@ -53,7 +53,7 @@ namespace SmartphoneConsoleClient
 
         static Device CreateDevice()
         {
-            Device device = new Device();
+            Device device = new Smartphone();
 
             GetManufacture(device);
             GetModel(device);
