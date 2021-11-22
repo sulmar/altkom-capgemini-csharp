@@ -28,14 +28,32 @@ namespace Delegates
             printer.Log += SendFacebook;
             printer.Log += Console.WriteLine;
 
-            printer.Cost += CalculateStandardCost;
-            // printer.Cost += CalculateHappyHoursCost;
+            // printer.Cost += CalculateStandardCost;
 
             // Metoda anonimowa
-            printer.Completed += delegate ()
-            {
-                Console.WriteLine("Koniec wydruku");
-            };
+            //printer.Cost += delegate (int length)
+            //{
+            //    return length * 0.99m;
+            //};
+
+            // Metoda anonimowa zapisana za pomocą wyrażenia lambda
+            printer.Cost += length => length * 0.99m;
+
+          // printer.Cost += CalculateHappyHoursCost;
+
+            // Metoda anonimowa
+            //printer.Completed += delegate ()
+            //{
+            //    Console.WriteLine("Koniec wydruku");
+            //};
+
+
+
+            Delegate[] delegates = printer.Cost.GetInvocationList();
+
+
+            // Metoda anonimowa zapisana za pomocą wyrażenia lambda
+            printer.Completed += () => Console.WriteLine("Koniec wydruku");
 
             printer.Printed += Printer_Printed;
             
