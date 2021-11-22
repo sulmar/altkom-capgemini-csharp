@@ -20,17 +20,20 @@ namespace Delegates
 
     public class Printer
     {
-        public delegate void LogDelegate(string message);   // Sygnatura
-        public LogDelegate Log;                             // Utworzenie zmiennej typu LogDelegate
+        //public delegate void LogDelegate(string message);   // Sygnatura
+        //public LogDelegate Log;                             // Utworzenie zmiennej typu LogDelegate
+        public Action<string> Log;
 
-        public delegate decimal CostDelegate(int length);
-        public CostDelegate Cost;
+        //public delegate decimal CostDelegate(int length);
+        //public CostDelegate Cost;
+        public Func<int, decimal> Cost;
 
         public delegate void CompletedDelegate();
         public event CompletedDelegate Completed;       // Zdarzenie - delegat, który może być wywołane przed właściciela
 
-        public delegate void PrintedDelegate(object sender, PrintedEventArgs args);
-        public event PrintedDelegate Printed;
+        //public delegate void PrintedDelegate(object sender, PrintedEventArgs args);
+        //public event PrintedDelegate Printed;
+        public EventHandler<PrintedEventArgs> Printed;
 
         public void Print(string content, byte copies = 1)
         {
