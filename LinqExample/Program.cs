@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LinqExample
 {
@@ -25,15 +26,35 @@ namespace LinqExample
             };
 
             // 2. Pobierz tylko niebieskie produkty
-            List<Product> filteredProducts = new List<Product>();
 
-            foreach (var product in products)
-            {
-                if (product.Color == "Blue")
-                {
-                    filteredProducts.Add(product);
-                }
-            }
+            //List<Product> filteredProducts = new List<Product>();
+
+            //foreach (var product in products)
+            //{
+            //    if (Filter(product))
+            //    {
+            //        filteredProducts.Add(product);
+            //    }
+            //}
+
+            // Linq - korzysta z wyrażeń lambda: x => x > 2; 
+            List<Product> filteredProducts = products
+                .Where(product => product.Color == "Blue")
+                .OrderByDescending(product => product.UnitPrice)
+                .Take(3)
+                .ToList();
+
+            // EF (Entity Framework)
+            // SELECT TOP(3) Name, Color, UnitPrice FROM dbo.Products as product
+            // WHERE product.Color = 'Blue'
+            // ORDER BY product.UnitPrice
+
+            List<Product> filteredProducts1 = (from product in products
+                                               where product.Color == "Blue"
+                                               orderby product.UnitPrice descending
+                                               select product)
+                                               .Take(3)
+                                               .ToList();
 
             // 3. Wyświetl pobrane produkty
             foreach (var product in filteredProducts)
@@ -41,6 +62,13 @@ namespace LinqExample
                 Console.WriteLine($"Name= {product.Name}, Color= {product.Color}, UnitPrice= {product.UnitPrice}");
             }
 
+
+
+        }
+
+        public static bool Filter(Product product)
+        {
+            return product.Color == "Blue";
         }
 
     }

@@ -54,9 +54,11 @@ namespace Delegates
             Printed?.Invoke(this, new PrintedEventArgs(copies, cost));
         }
 
-        private void DisplayLCD(decimal cost)
-        {
-            Console.WriteLine($"LCD {cost}");
-        }
+        //private void DisplayLCD(decimal cost)
+        //{
+        //    Console.WriteLine($"LCD {cost}");
+        //}
+
+        private void DisplayLCD(decimal cost) => Console.WriteLine($"LCD {cost}");
     }
 }
