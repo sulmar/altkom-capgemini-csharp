@@ -44,6 +44,10 @@ namespace LinqExample
                 .Take(3)
                 .ToList();
 
+            // FindAll - to nie jest Linq i występuje tylko na List<T>
+            // List<Product> filteredProducts = products.FindAll(product => product.Color == "Blue").ToList();
+
+
             // EF (Entity Framework)
             // SELECT TOP(3) Name, Color, UnitPrice FROM dbo.Products as product
             // WHERE product.Color = 'Blue'
