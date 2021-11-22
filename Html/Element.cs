@@ -15,25 +15,7 @@ namespace Html
 
         public abstract string Render();    // Metoda abstrakcyjna
 
-        //public virtual string Render()
-        //{
-        //    return string.Empty;
-        //}
-    }
-
-    public class Paragraph : Element
-    {
-        public string Content { get; set; }
-
-        public override string Tag
-        {
-            get
-            {
-                return "p";
-            }
-        }
-
-        public override string Render()
+        public virtual StringBuilder Build()
         {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -47,12 +29,41 @@ namespace Html
 
             if (!string.IsNullOrEmpty(Style))
             {
-                stringBuilder.Append($" style=\"{Style}\">");                
+                stringBuilder.Append($" style=\"{Style}\">");
             }
 
-            // Paragraph
+            return stringBuilder;
+        }
+    }
+
+    public abstract class ContentElement : Element
+    {
+        public string Content { get; set; }
+
+        public override StringBuilder Build()
+        {            
+            StringBuilder stringBuilder = base.Build();
+
             stringBuilder.Append(Content);
 
+            return stringBuilder;
+        }
+    }
+
+    public class Paragraph : ContentElement
+    {
+        public override string Tag
+        {
+            get
+            {
+                return "p";
+            }
+        }
+
+        public override string Render()
+        {
+            StringBuilder stringBuilder = base.Build();
+           
             // EndTag
 
             stringBuilder.Append($"</{Tag}>");
@@ -73,21 +84,7 @@ namespace Html
 
         public override string Render()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.Append("<");
-            stringBuilder.Append(Tag);
-
-            if (!string.IsNullOrEmpty(Id))
-            {
-                stringBuilder.Append($" Id=\"{Id}\"");
-            }
-
-            if (!string.IsNullOrEmpty(Style))
-            {
-                stringBuilder.Append($" style=\"{Style}\">");
-            }
-
+            StringBuilder stringBuilder = base.Build();
 
             // Image
             if (!string.IsNullOrEmpty(Source))
@@ -106,6 +103,29 @@ namespace Html
 
 
             return stringBuilder.ToString();
+        }
+    }
+
+
+    public class Header : ContentElement
+    {
+        public override string Tag => $"h{Level}";
+
+        public byte Level { get; set; }
+
+        public override string Render()
+        {
+            StringBuilder stringBuilder = base.Build();
+
+            // EndTag
+
+            stringBuilder.Append($"</{Tag}>");
+
+            string html = stringBuilder.ToString();
+
+            return html;
+
+
         }
     }
 }
