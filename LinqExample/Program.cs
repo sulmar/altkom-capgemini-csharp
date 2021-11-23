@@ -91,6 +91,8 @@ namespace LinqExample
             // IEnumerable
             byte[] numbers = new byte[] { 10, 65, 76, 56, 23, 6 };
 
+            var happyNumbers = numbers.Where(number => number > 10);
+
             IEnumerable<Product> basket = products;
 
 
