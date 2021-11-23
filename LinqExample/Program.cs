@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace LinqExample
 {
+
+    // LINQ
+
     class Program
     {
         // TODO:
@@ -37,7 +40,7 @@ namespace LinqExample
             //    }
             //}
 
-            // Linq - korzysta z wyrażeń lambda: x => x > 2; 
+            // Linq (Language Integrated Query) - korzysta z wyrażeń lambda: x => x > 2; 
             List<Product> filteredProducts = products
                 .Where(product => product.Color == "Blue")
                 .OrderByDescending(product => product.UnitPrice)
@@ -49,6 +52,7 @@ namespace LinqExample
 
 
             // EF (Entity Framework)
+            // SQL:
             // SELECT TOP(3) Name, Color, UnitPrice FROM dbo.Products as product
             // WHERE product.Color = 'Blue'
             // ORDER BY product.UnitPrice

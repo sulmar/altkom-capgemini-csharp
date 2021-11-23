@@ -23,23 +23,39 @@ namespace Delegates
 
         static void Main(string[] args)
         {
+            DelegateTest();
+
             Printer printer = new Printer();
             printer.Log += SendColorConsole;
             printer.Log += SendFacebook;
             printer.Log += Console.WriteLine;
 
-            // printer.Cost += CalculateStandardCost;
+             printer.Cost += CalculateStandardCost;     // f(x) = x + 2  x nalezy do C
 
             // Metoda anonimowa
-            //printer.Cost += delegate (int length)
+            //printer.Cost += delegate (int length)     
             //{
             //    return length * 0.99m;
             //};
 
             // Metoda anonimowa zapisana za pomocą wyrażenia lambda
-            printer.Cost += length => length * 0.99m;
+            printer.Cost += p => p * 0.99m;   // length -> length + 0.99m  length nalezy do C
 
-          // printer.Cost += CalculateHappyHoursCost;
+            // f(x) = 2         - ()  -> 2
+            // f(x, y) = x + y  - x,y -> x + y
+
+
+            /* 
+                decimal CalculateStandardCost(int p)
+                {
+                    return p * 0.99m;
+                }
+
+                 bla => bla * 0.99m;
+            */
+
+
+            // printer.Cost += CalculateHappyHoursCost;
 
             // Metoda anonimowa
             //printer.Completed += delegate ()
@@ -59,13 +75,15 @@ namespace Delegates
             
             printer.Print("Hello World!", 3);
 
-            // DelegateTest();
-
-
             //SendConsole("Hello World!");
             //SendColorConsole("Hello World!");
             //SendSms("Hello World!");
             //SendFacebook("Hello World!");
+
+            
+
+
+
 
         }
 
@@ -76,14 +94,14 @@ namespace Delegates
 
         private static void DelegateTest()
         {
-            Send send = DoNothing;
+            Send send = null;
 
             if (send != null)
                 send.Invoke("Hello!");
 
             send?.Invoke("Hello!");
 
-            send = SendConsole; // subskrypcja
+            send += SendConsole; // subskrypcja
             send += SendColorConsole;
             send += SendFacebook;
             send += SendFacebook;
@@ -99,6 +117,7 @@ namespace Delegates
             send.Invoke("Hello C#");
         }
 
+        // Deklaracja delegatu
         delegate void Send(string message);
 
 

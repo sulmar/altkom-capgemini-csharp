@@ -42,6 +42,12 @@ namespace Delegates
                 Log?.Invoke($"{DateTime.Now} Printing {content} Copy #{copy}");                
             }
 
+            // Uwaga na NullReferenceExcepction
+            //if (Cost!=null)
+            //{
+            //    cost = Cost.Invoke(content.Length * copies);
+            //}
+
             decimal? cost = Cost?.Invoke(content.Length * copies);
 
             if (cost.HasValue)
