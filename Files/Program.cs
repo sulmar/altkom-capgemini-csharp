@@ -37,6 +37,8 @@ namespace Files
         {
             const string filename = "products.csv";
 
+            FileInfo fileInfo = new FileInfo(filename);
+
             if (File.Exists(filename))
             {
                 string content = File.ReadAllText(filename);
