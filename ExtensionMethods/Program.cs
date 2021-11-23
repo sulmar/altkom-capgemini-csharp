@@ -22,6 +22,7 @@ namespace ExtensionMethods
 
     public class StringHelper
     {
-
+        // Normalize
+        
     }
 }
