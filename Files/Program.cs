@@ -35,9 +35,9 @@ namespace Files
 
         static void Main(string[] args)
         {
-            const string filename = "products.csv";
+            const string filename = "products2.csv";
 
-            FileInfo fileInfo = new FileInfo(filename);
+         
 
             if (File.Exists(filename))
             {
