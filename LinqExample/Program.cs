@@ -70,8 +70,51 @@ namespace LinqExample
                 Console.WriteLine($"Name= {product.Name}, Color= {product.Color}, UnitPrice= {product.UnitPrice}");
             }
 
+            // Czy istnieje jakikolwiek produkt w kolorze czerwonym?
+
+            // bool hasRedColor = HasColor(products, "Red");
+
+            bool hasRedColor = products.Where(product => product.Color == "Red").Any();
+
+            bool hasRedColor2 = products.Any(product => product.Color == "Red");
+
+            // Czy wszystkie produkty są w kolorze czerwonym?
+            bool isAllRedColors = products.All(product => product.Color == "Red");
+
+            // Ile jest produktów poszczególnych kolorów?  
+            var query = products
+                .GroupBy(product => product.Color)
+                .Select(group => new { Kolor = group.Key, Ilosc = group.Count() }) // Typ anonimowy
+                .ToList();
 
 
+            // IEnumerable
+            byte[] numbers = new byte[] { 10, 65, 76, 56, 23, 6 };
+
+            IEnumerable<Product> basket = products;
+
+
+            
+            
+            
+
+            // SQL:
+            // SELECT Color as Kolor, count(*) as Ilosc 
+            // GROUP BY Color
+
+        }
+
+        public static bool HasColor(List<Product> products, string color)
+        {
+            foreach (var product in products)
+            {
+                if (product.Color == color)     // Predykat
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static bool Filter(Product product)
