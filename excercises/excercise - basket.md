@@ -1,7 +1,7 @@
 # Zadanie nr 3 - Koszyk zakupowy
 Klient zamówił Sklep internetowy.
 
-Utwórz aplikację konsolową o nazwie **Basket**.
+Utwórz aplikację konsolową o nazwie **Shopping Cart**.
 
 Koszyk zakupowy ma realizować następujące funkcje:
 - dodawanie wybranego produktu do koszyka (np. z katalogu 5 produktów)
